@@ -19,10 +19,9 @@ while True:
         ids = ids.flatten()
         for markerCorner, markerID in zip(corners, ids):
             corners = markerCorner.reshape((4,2))
-            corners = ((int(coord) for coord in corner) for corner in corners)
+            corners = [[int(coord) for coord in corner] for corner in corners]
 
-
-            for i in range(4):
+            for i in range(len(corners)):
                 cv2.line(frame, corners[i], corners[(i + 1) % 4], (0, 255, 0), 2)
 
             cv2.putText(frame, str(markerID), (corners[0][0], corners[0][1] - 15), cv2.FONT_HERSHEY_SIMPLEX, .5, (0, 255, 0), 2)
