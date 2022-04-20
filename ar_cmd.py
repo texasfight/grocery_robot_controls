@@ -15,8 +15,8 @@ while True:
 
     corners, ids, rejected = cv2.aruco.detectMarkers(frame, aruco_dict, parameters=aruco_params)
 
-    if ids:
-        print(f"Detected Tag: {ids}")
+    if ids is not None:
+        print(f"Detected Tag: {ids.flatten()}")
 
     key = cv2.waitKey(1) & 0xFF
     if key == ord("q"):

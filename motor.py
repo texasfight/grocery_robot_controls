@@ -1,24 +1,33 @@
 import RPi.GPIO as GPIO
-from time import sleep
-import sys
+import time
 
-motor_channel = (29, 31, 33, 35)
-GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)
 
-GPIO.setup(motor_channel, GPIO.OUT)
+control_pins = [7,11,13,15]
+
+for pin in control_pins:
+    GPIO.setup(pin, GPIO.OUT)
+    GPIO.output(pin, 0)
+
+halfstep_seq = [
+    [1,0,0,0],
+    [1,1,0,0],
+    [0,1,0,0],
+    [0,1,1,0],
+    [0,0,1,0],
+    [0,0,1,1],
+    [0,0,0,1],
+    [1,0,0,1]
+    ]
+
+print("created_half_step")
 
 while True:
-
     try:
-        GPIO.output(motor_channel, (GPIO.HIGH, GPIO.LOW, GPIO.LOW, GPIO.HIGH))
-        sleep(.001)
-        GPIO.output(motor_channel, (GPIO.HIGH, GPIO.HIGH, GPIO.LOW, GPIO.LOW))
-        sleep(.001)
-        GPIO.output(motor_channel, (GPIO.LOW, GPIO.HIGH, GPIO.HIGH, GPIO.LOW))
-        sleep(.001)
-        GPIO.output(motor_channel, (GPIO.LOW, GPIO.LOW, GPIO.HIGH, GPIO.HIGH))
-        sleep(.001)
-    except KeyboardInterrupt:
-        print("motor stopped")
-        sys.exit(0)
+        for halfstep in range(8):
+            for pin in range(4):
+                GPIO.output(control_pins[pin], halfstep_seq[halfstep][pin])
+            time.sleep(0.001)
+    except:
+        GPIO.cleanup()
+        break
