@@ -1,0 +1,25 @@
+Method 1: https://raspberrypi.stackexchange.com/questions/15475/run-bash-script-on-startup
+
+Add script to directory:
+	/etc/init.d
+
+Make script executable:
+	chmod +x /etc/init.d/nameofscript.sh
+
+Register script to be run at startup:
+	sudo update-rc.d /etc/init.d/nameofscript.sh defaults
+
+
+Method 2: https://www.makeuseof.com/how-to-run-a-raspberry-pi-program-script-at-startup/
+
+Set up cronjob:
+	sudo crontab -e
+
+Add script to crontab:
+	@reboot /path/to/script.sh &
+or:
+	@reboot python3 /path/to/script.py &
+
+IMPORTANT!
+& required to run in new thread, which allows bootup to proceed if script runs infinitely
+If not, it is not necessary
