@@ -58,15 +58,13 @@ while True:
 
     if new_id:
         current_node = new_id
-
-
-    # Sort corner by height. The first corner should be the top_left
-    corners_sorted = sorted(corners[0], key=lambda x: x[1])
-    top_left = corners[0][0]
-    if corners_sorted.index(top_left) <= 1:
-        in_reverse = True
-    else:
-        in_reverse = False
+        # Sort corner by height. The first corner should be the top_left
+        corners_sorted = sorted(corners[0], key=lambda x: x[1])
+        top_left = corners[0][0]
+        if corners_sorted.index(top_left) <= 1:
+            in_reverse = True
+        else:
+            in_reverse = False
 
     if current_node == 1:
         if in_reverse:
