@@ -13,4 +13,5 @@ try:
         motor.forward()
         sleep(2)
 except:
+    motor.backward(.5)
     motor.stop()
