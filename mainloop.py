@@ -34,6 +34,7 @@ def stop_signal(direction: str):
 # Start capturing video data
 running = False
 current_node = None
+in_reverse = False
 vs = VideoStream(src=0).start()
 while True:
     # read in and resize the data
@@ -61,7 +62,12 @@ while True:
         # Sort corner by height. The first corner should be the top_left
         corners_sorted = sorted(corners[0], key=lambda x: x[1])
         top_left = corners[0][0]
-        if np.where(corners_sorted == top_left)[0] <= 1:
+        count = 0
+        for corner in corners_sorted:
+            if corner == top_left:
+                break
+            count += 1
+        if count <= 1:
             in_reverse = True
         else:
             in_reverse = False
