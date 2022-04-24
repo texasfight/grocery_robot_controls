@@ -64,7 +64,7 @@ while True:
         top_left = corners[0][0]
         count = 0
         for corner in corners_sorted:
-            if corner == top_left:
+            if corner is top_left:
                 break
             count += 1
         if count <= 1:
