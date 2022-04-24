@@ -61,7 +61,7 @@ while True:
 
     new_id = ids[0][0] if ids else None
 
-    if current_node != new_id:
+    if new_id and current_node != new_id:
         current_node = new_id
         # Sort corner by height. The first corner should be the top_left
         corners_sorted = sorted(corners[0], key=lambda x: x[1])
