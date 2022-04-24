@@ -37,10 +37,8 @@ current_node = None
 in_reverse = False
 vs = VideoStream(src=0).start()
 while True:
-    # read in and resize the data
-    frame = vs.read()
-    frame = imutils.resize(frame, width=600)
 
+    # Fast stop  on
     if distance_front.distance * 100 < 10:
         stop_signal("front")
         continue
@@ -51,13 +49,19 @@ while True:
         stop_signal("left")
         continue
 
+
+    # read in and resize the data
+    frame = vs.read()
+    frame = imutils.resize(frame, width=600)
+
+
     red_led.off()
     # detect markers and IDs
     corners, ids, rejected = cv2.aruco.detectMarkers(frame, aruco_dict, parameters=aruco_params)
 
     new_id = ids[0][0] if ids else None
 
-    if new_id:
+    if current_node != new_id:
         current_node = new_id
         # Sort corner by height. The first corner should be the top_left
         corners_sorted = sorted(corners[0], key=lambda x: x[1])
@@ -72,18 +76,16 @@ while True:
         else:
             in_reverse = False
 
-    if current_node == 1:
-        if in_reverse:
-            servo.min()
-        else:
-            servo.max()
-        main_motor.start()
-
-
-
-
-
-
+        if current_node == 1:
+            if in_reverse:
+                servo.min()
+            else:
+                servo.max()
+            main_motor.forward()
+        if current_node == 10:
+            main_motor.stop()
+            sleep(15)
+            main_motor.forward()
 
     key = cv2.waitKey(1) & 0xFF
     if key == ord("q"):
