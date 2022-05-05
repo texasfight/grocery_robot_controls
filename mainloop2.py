@@ -74,6 +74,14 @@ while True:
         RIGHT = [2, ]
         STOP = [1, 4, 6]
         LEFT = [3, ]
+    elif current_node == 8:
+        main_motor.forward(.9)
+        servo.mid()
+        TURNING_LEFT = False
+        TURNING_RIGHT = False
+        RIGHT = [3, ]
+        LEFT = [2, ]
+        STOP = [5, 1, 4]
     elif current_node in STOP:
         main_motor.stop()
         servo.mid()
